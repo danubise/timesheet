@@ -30,7 +30,11 @@ function connect_mysql() {
     if(empty($_config['mysql']['user']) or empty($_config['mysql']['password'])) {
         return false;
     }
-    $connect = new db($_config['mysql']['host'],$_config['mysql']['user'],$_config['mysql']['password'],$_config['mysql']['base']);
+//    $connect = new db($_config['mysql']['host'],
+//        $_config['mysql']['user'],
+//        $_config['mysql']['password'],
+//        $_config['mysql']['database']);
+    $connect = new db($_config['mysql']);
     $connect->set_charset("utf8");
     return $connect;
 }
