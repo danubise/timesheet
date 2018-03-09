@@ -1,5 +1,5 @@
 <?php
-
+include ("internalconfig.php");
 
 /**
  * Created by Unix develop team.
@@ -40,12 +40,6 @@ define('SITE_TITLE', '');
  * Mysql db config
  */
 define('db_lib', libs.'mysql.php');
-$_config['mysql'] = array(
-    'host' => 'localhost',
-    'user'=>"timesheetuser",
-    'password'=>"RyGdY7bB4Wt4WAZ2",
-    'database'=>"timesheet"
-);
 
 ///////////////////////////////////////////////////////////////
 /**
