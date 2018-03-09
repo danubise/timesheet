@@ -29,7 +29,8 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-main">
             <ul class="nav navbar-nav">
-                <li><a href="<?=baseurl("hlrrequest")?>">HLR запрос</a></li>
+                <li><a href="<?=baseurl("hourlyreport")?>">Часовой отчет</a></li>
+                <li><a href="<?=baseurl("activereport")?>">Активность</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?=baseurl("settings")?>"><i class="fa fa-cogs"></i> Настройки</a></li>
