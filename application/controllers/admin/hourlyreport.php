@@ -14,14 +14,24 @@ class Hourlyreport extends Core_controller {
 
     public function index() {
         $datetime = new DateTime();
-        $date1 = $datetime->format('d.m.Y');
+        $date1 = $datetime->format('Y-m-d');
         $datetime = new DateTime('tomorrow');
-        $date2 =  $datetime->format('d.m.Y');
-        $data = $this->db->select();
+        $date2 =  $datetime->format('Y-m-d');
+            $date1="2018-03-01";
+            $date2="2018-03-09";
+        $data = $this->db->select("number, hour , sum(round_session_time) as sec
+            FROM `statistic` WHERE `session_start` >= '".$date1."'
+            AND `session_start` < '".$date2."' group by number, hour");
+        $tabledata= array();
+        foreach ($data as $key=>$value){
+            $tabledata[$value['number']][$value['hour']] = round($value['sec']/60);
+        }
+        echo $this->db->query->last;
         $this->view(
             array(
                 'view' => 'timesheet/show',
                 'var' => array(
+                    'data' => $tabledata
                 )
             )
         );
