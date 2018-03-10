@@ -18,6 +18,22 @@ class Hourlyreport extends Core_controller {
         $currentDate="2018-03-07";
 
         $userlogin = $this->db->select("login FROM `users` WHERE `id`='".$_SESSION['id']."'", 0);
+        if(isset($_POST['update']) && $userlogin != "admin"){
+
+            $lastUpdateTime = $this->db->select("`value` FROM `settings` WHERE `parameter`='lasttimeupdate".$userlogin."'", 0);
+
+            if($lastUpdateTime==""){
+                $this->db->insert("settings",array(
+                        "parameter"=>"lasttimeupdate".$userlogin,
+                        "value"=>time()));
+            }
+
+            if(time() - $lastUpdateTime > 60){
+                $this->update(1,$userlogin);
+                $this->update(2,$userlogin);
+                $this->db->update("settings",array("value"=>time()),"parameter='lasttimeupdate".$userlogin."'");
+            }
+        }
         $data = $this->db->select("number, hour , sum(round_session_time) as sec
             FROM `statistic` WHERE `session_start` LIKE('".$currentDate."%') AND `cid`='".$userlogin."' group by number, hour");
         $tabledata= array();
