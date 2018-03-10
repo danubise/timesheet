@@ -25,10 +25,10 @@ class Activereport extends Core_controller {
 
     }
     public function index() {
-        print_r($_SESSION);
+
         $userlogin = $this->db->select("login FROM `users` WHERE `id`='".$_SESSION['id']."'", 0);
         $cidNumbers = $this->db->select("number FROM `cid` WHERE `cid`='".$userlogin."'");
-        print_r($cidNumbers);
+
         $calls=file('/var/www/html/stat/act.php');
         $calls=explode("\n",$this->testData());
         $status = array();
@@ -55,7 +55,6 @@ class Activereport extends Core_controller {
             $resultstatistic[$number][3] = $valuearray[8];
         }
         unset($status);
-        print_r($resultstatistic);
 
         $this->view(
             array(
