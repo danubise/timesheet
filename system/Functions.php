@@ -131,3 +131,70 @@ function utf8_to_cp1251($s)
         return $s;
     }
 }
+
+function dataUpdate($cid){
+global $_config;
+
+    $datetime = new DateTime();
+    $date1 = $datetime->format('d.m.Y');
+    $datetime = new DateTime('tomorrow');
+    $date2 =  $datetime->format('d.m.Y');
+
+    $date1="01.03.2018";
+    $date2="09.03.2018";
+
+    $db = connect_mysql();
+    $users_id = $db->select("user_id from `cid` where `cid`='".$cid."'");
+    $id="";
+    foreach($users_id as $key=>$value){
+        $id=$id.$value." ";
+    }
+    $id= str_replace(" ","%2C",trim($id));
+
+    $url = 'http://'.$_config['billing']['host'].'/bgbilling/executer?user='.$_config['billing']['user'].
+        '&pswd='.$_config['billing']['password'].
+        '&module=voiceip'.
+        '&direct=2'.
+        '&mid=4'.
+        '&pageSize=999'.
+        '&date2='.$date2.
+        '&date1='.$date1.
+        '&unit=1'.
+        '&pageIndex=1'.
+        '&action=LoginSessions'.
+        '&id='.$id.
+        '&contentType=xml'.
+        '&cid='.$cid.
+        '&mask=';
+
+    $data = simplexml_load_string(file_get_contents($url));
+    echo $url."<br>";
+    if ((string)$data['status'] == 'ok') {
+        var_dump($data);
+         $countOfRows= $data->table->data->attributes();
+         for ($i =0 ; $i< $countOfRows; $i++) {
+            $from_to_temp= $data->table->data->row[$i]['from_to']->__toString();
+            $from_to = explode("/",$from_to_temp);
+            $number = trim($from_to[1]);
+            $durationstring = $data->table->data->row[$i]['round_session_time']->__toString();
+            $durationtime_temp = explode("[",$durationstring);
+            $durationtime_temp = explode("]",$durationtime_temp[1]);
+            $round_session_time = $durationtime_temp[0];
+
+            echo " time = ".$round_session_time;
+            echo " startat = ".$data->table->data->row[$i]['session_start']->__toString();
+            echo "<br>";
+            $session_start=date("Y-m-d H:i:s", strtotime( $data->table->data->row[$i]['session_start']->__toString() ));
+            $log_id = (int)$data->table->data->row[$i]['log_id'];
+            $db->insert("statistic", array(
+            "number"=>$number,
+            "cid" => (int)$cid,
+            "session_start"=>$session_start,
+            "round_session_time" => (int)$round_session_time,
+            "typeinout" => 2,
+            "log_id" => $log_id
+            ));
+            echo $db->query->last."<br>";
+         }
+    }
+}
