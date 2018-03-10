@@ -132,7 +132,7 @@ function utf8_to_cp1251($s)
     }
 }
 
-function dataUpdate($cid, $destination){
+function dataUpdate( $destination, $cid ){
     global $_config;
 
     $datetime = new DateTime();
@@ -166,7 +166,7 @@ function dataUpdate($cid, $destination){
         '&contentType=xml'.
         '&cid='.$cid.
         '&mask=';
-    echo $url."<br>";
+    //echo $url."<br>";
     $data = simplexml_load_string(file_get_contents($url));
     if ((string)$data['status'] == 'ok') {
          $countOfRows= $data->table->data->attributes();
@@ -180,16 +180,18 @@ function dataUpdate($cid, $destination){
             $round_session_time = $durationtime_temp[0];
 
             $session_start=date("Y-m-d H:i:s", strtotime( $data->table->data->row[$i]['session_start']->__toString() ));
+            $hour=date("H", strtotime( $data->table->data->row[$i]['session_start']->__toString() ));
             $log_id = (int)$data->table->data->row[$i]['log_id'];
             $db->insert("statistic", array(
             "number"=>$number,
             "cid" => (int)$cid,
             "session_start"=>$session_start,
+            "hour" => $hour,
             "round_session_time" => (int)$round_session_time,
             "typeinout" => $destination,
             "log_id" => $log_id
             ));
-            echo $db->query->last."<br>";
+         //   echo $db->query->last."<br>";
          }
     }
 }

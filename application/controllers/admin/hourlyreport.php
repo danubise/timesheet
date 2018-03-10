@@ -12,17 +12,22 @@ class Hourlyreport extends Core_controller {
         $this->module_name = 'Time sheet';
     }
 
-    public function index($destionation, $cid) {
-        dataUpdate($cid,$destionation );
-
-
-//        $this->view(
-//            array(
-//                'view' => 'timesheet/show',
-//                'var' => array(
-//                )
-//            )
-//        );
+    public function index() {
+        $datetime = new DateTime();
+        $date1 = $datetime->format('d.m.Y');
+        $datetime = new DateTime('tomorrow');
+        $date2 =  $datetime->format('d.m.Y');
+        $data = $this->db->select();
+        $this->view(
+            array(
+                'view' => 'timesheet/show',
+                'var' => array(
+                )
+            )
+        );
+    }
+    public function update($destionation, $cid){
+        dataUpdate($destionation, $cid );
     }
 
     public function logout() {
