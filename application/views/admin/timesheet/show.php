@@ -1,8 +1,23 @@
 <?php
     print_r($data);
 ?>
-<style>
-</style>
+<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="<?=baseurl('pub/tablestyle/images/icons/favicon.ico')?>"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=baseurl('pub/tablestyle/vendor/bootstrap/css/bootstrap.min.css')?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=baseurl('pub/tablestyle/fonts/font-awesome-4.7.0/css/font-awesome.min.css')?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=baseurl('pub/tablestyle/vendor/animate/animate.css')?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=baseurl('pub/tablestyle/vendor/select2/select2.min.css')?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=baseurl('pub/tablestyle/vendor/perfect-scrollbar/perfect-scrollbar.css')?>">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="<?=baseurl('pub/tablestyle/css/util.css')?>">
+	<link rel="stylesheet" type="text/css" href="<?=baseurl('pub/tablestyle/css/main.css')?>">
 <table border=1>
     <?php
     echo "<th>Номер\Часы</th>";
