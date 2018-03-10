@@ -15,10 +15,13 @@ class Detailreport extends Core_controller {
     public function index() {
 
         if(isset($_POST['submit'])){
-            $selecteddate = $_POST['selecteddate'];
+            $date1 = $_POST['date1'];
+            $date2 = $_POST['date2'];
         }else{
             $datetime = new DateTime();
-            $selecteddate = $datetime->format('Y-m-d');
+            $date1 = $datetime->format('Y-m-d');
+            $datetime = new DateTime('tomorrow');
+            $date2 = $datetime->format('Y-m-d');
         }
 /*
 количество набранных (N) ---
@@ -31,12 +34,16 @@ class Detailreport extends Core_controller {
 */
         $userlogin = $this->db->select("login FROM `users` WHERE `id`='".$_SESSION['id']."'", 0);
 
-        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".
-                $selecteddate."%') AND `typeinout`=1 AND `cid`='".$userlogin."'");
+        $data = $this->db->select("* FROM `statistic` WHERE
+             `session_start` >= '".$date1."' AND
+             `session_start` < '".$date2."'
+             AND `typeinout`=1 AND `cid`='".$userlogin."'");
         $incalls = $this->calculateStatistic($data);
 
-        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".
-                $selecteddate."%') AND `typeinout`=2 AND `cid`='".$userlogin."'");
+        $data = $this->db->select("* FROM `statistic` WHERE
+            `session_start` >= '".$date1."' AND
+            `session_start` < '".$date2."' AND
+            `typeinout`=2 AND `cid`='".$userlogin."'");
         $outcalls =  $this->calculateStatistic($data);
 
         $this->view(
@@ -45,7 +52,8 @@ class Detailreport extends Core_controller {
                 'var' => array(
                     'incalldata' => $incalls,
                     'outcalldata' => $outcalls,
-                    'selecteddate' => $selecteddate
+                    'date1' => $date1,
+                    'date2' => $date2
 
                 )
             )

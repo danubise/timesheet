@@ -66,7 +66,8 @@ function displaydata($data){
 <form method="post"  enctype="multipart/form-data" action="<?=baseurl('detailreport/index/')?>">
 
     <div class="form-group">
-        <input name="selecteddate" type="date" data-date-inline-picker="true"  value="<?=$selecteddate?>"/>
+        <input name="date1" type="date" data-date-inline-picker="true"  value="<?=$date1?>"/>
+        <input name="date2" type="date" data-date-inline-picker="true"  value="<?=$date2?>"/>
         <button name="submit" type="submit" class="btn btn-success" id="getReport">Сформировать</button>
     </div>
     <table class="blueTable">
