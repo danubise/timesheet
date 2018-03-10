@@ -51,6 +51,19 @@ class Detailreport extends Core_controller {
 
     private function calculateStatistic($data){
         $tabledata= array();
+        foreach ($data as $key=>$value){
+            if(!isset($tabledata[$value['number']])){
+                $tabledata[$value['number']] = array(
+                    'countofcalls' => 0,
+                    'umountminut' => 0,
+                    'answered' => 0,
+                    'missed' => 0,
+                    'answeredpercent' => 0,
+                    'missedpercent' => 0,
+                    'averageminut' => 0
+                );
+            }
+        }
 
         foreach ($data as $key=>$value){
             $tabledata[$value['number']]['countofcalls']++;
@@ -64,6 +77,7 @@ class Detailreport extends Core_controller {
             $tabledata[$value['number']]['missedpercent'] = 100*$tabledata[$value['number']]['missed'] / $tabledata[$value['number']]['countofcalls'];
             $tabledata[$value['number']]['averageminut'] = $tabledata[$value['number']]['umountminut'] / $tabledata[$value['number']]['countofcalls'];
         }
+
         return $tabledata;
     }
     
