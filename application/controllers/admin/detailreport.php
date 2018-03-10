@@ -17,9 +17,15 @@ class Detailreport extends Core_controller {
         $date1 = $datetime->format('Y-m-d');
         $datetime = new DateTime('tomorrow');
         $date2 =  $datetime->format('Y-m-d');
-            $date1="2018-03-01";
-            $date2="2018-03-09";
 
+        $date1="2018-03-01";
+        $date2="2018-03-09";
+        print_r($_POST);
+//        if($_POST['']){
+//
+//        }else{
+//
+//        }
 /*
 количество набранных (N) ---
 количество проговорённых минут (M) ---
@@ -42,7 +48,8 @@ class Detailreport extends Core_controller {
                 'view' => 'detail/show',
                 'var' => array(
                     'incalldata' => $incalls,
-                    'outcalldata' => $outcalls
+                    'outcalldata' => $outcalls,
+                    'selecteddate' => $selecteddate
 
                 )
             )
