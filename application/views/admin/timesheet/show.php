@@ -49,10 +49,11 @@ table.blueTable tfoot .links a{
 </style>
 <table class="blueTable">
     <?php
-    echo "<th>Номер\Часы</th>";
+    echo "<tr><th colspan=\"25\">".$currentdate." </th></tr><tr><th>Номер\Часы</th>";
     for($i=0; $i<24;$i++){
         echo "<th>".sprintf("%02d", $i)."</th>";
     }
+    echo "</tr>";
     foreach($data as $number => $hours){
         echo "<tr><td>".$number."</td>";
         for($i=0; $i<24;$i++){
