@@ -1,8 +1,4 @@
     <?php
-print_r($incalldata);
-echo "<br>";
-print_r($outcalldata);
-
 function displaydata($data){
     foreach ($data as $number=>$statdata){
         echo "<tr><td>".$number."</td>";
@@ -27,7 +23,7 @@ function displaydata($data){
     <table border=1>
 
         <tr>
-            <th></th><th colspan="8">Входящие</th>
+            <th colspan="8">Входящие</th>
         </tr>
         <tr>
         <th>номер\данные</th>
@@ -49,7 +45,7 @@ function displaydata($data){
      <br>
      <table border=1>
         <tr>
-            <th></th><th colspan="8">Исходящие</th>
+            <th colspan="8">Исходящие</th>
         </tr>
         <tr>
             <th>номер\данные</th>

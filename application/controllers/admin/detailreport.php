@@ -13,19 +13,13 @@ class Detailreport extends Core_controller {
     }
 
     public function index() {
-        $datetime = new DateTime();
-        $date1 = $datetime->format('Y-m-d');
-        $datetime = new DateTime('tomorrow');
-        $date2 =  $datetime->format('Y-m-d');
 
-        $date1="2018-03-01";
-        $date2="2018-03-09";
-        print_r($_POST);
-//        if($_POST['']){
-//
-//        }else{
-//
-//        }
+        if(isset($_POST['submit'])){
+            $selecteddate = $_POST['selecteddate'];
+        }else{
+            $datetime = new DateTime();
+            $selecteddate = $datetime->format('Y-m-d');
+        }
 /*
 количество набранных (N) ---
 количество проговорённых минут (M) ---
@@ -35,12 +29,10 @@ class Detailreport extends Core_controller {
 количество неотвеченных в %
 средняя длительность разговора (M/O)
 */
-        $data = $this->db->select("* FROM `statistic` WHERE `session_start` >= '".$date1."'
-            AND `session_start` < '".$date2."' AND `typeinout`=1");
+        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".$selecteddate."%') AND `typeinout`=1");
         $incalls = $this->calculateStatistic($data);
 
-        $data = $this->db->select("* FROM `statistic` WHERE `session_start` >= '".$date1."'
-            AND `session_start` < '".$date2."' AND `typeinout`=2");
+        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".$selecteddate."%') AND `typeinout`=2");
         $outcalls =  $this->calculateStatistic($data);
 
         $this->view(
@@ -58,6 +50,10 @@ class Detailreport extends Core_controller {
 
     private function calculateStatistic($data){
         $tabledata= array();
+        if(empty($data)){
+            return $tabledata;
+        }
+
         foreach ($data as $key=>$value){
             if(!isset($tabledata[$value['number']])){
                 $tabledata[$value['number']] = array(
