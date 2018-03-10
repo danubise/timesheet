@@ -132,16 +132,20 @@ function utf8_to_cp1251($s)
     }
 }
 
-function dataUpdate( $destination, $cid ){
+function dataUpdate( $destination, $cid, $date1 ){
     global $_config;
 
-    $datetime = new DateTime();
+    $datetime = new DateTime($date1);
     $date1 = $datetime->format('d.m.Y');
-    $datetime = new DateTime('tomorrow');
+    $datetime->modify('+1 day');
+//    $datetime = new DateTime('tomorrow');
     $date2 =  $datetime->format('d.m.Y');
 
-    $date1="01.03.2018";
-    $date2="09.03.2018";
+    //echo $date1."  =>> ".$date2."!!!!!!!!!";
+
+    //die;
+//    $date1="01.03.2018";
+//    $date2="09.03.2018";
 
     $db = connect_mysql();
     $users_id = $db->select("user_id from `cid` where `cid`='".$cid."'");

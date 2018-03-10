@@ -50,11 +50,12 @@ table.blueTable tfoot .links a{
 <form method="post"  enctype="multipart/form-data" action="<?=baseurl('hourlyreport/index/')?>">
 
 <div class="form-group">
-    <button name="update" type="submit" class="btn btn-success" id="getReport">Обновить</button>
+    <input name="currentDate" type="date" data-date-inline-picker="true"  value="<?=$currentDate?>"/>
+    <button name="update" type="submit" class="btn btn-success" id="getReport">Получить</button>
 </div>
 <table class="blueTable">
     <?php
-    echo "<tr><th colspan=\"25\">".$currentdate." </th></tr><tr><th>Номер\Часы</th>";
+    echo "<tr><th colspan=\"25\">".$currentDate." </th></tr><tr><th>Номер\Часы</th>";
     for($i=0; $i<24;$i++){
         echo "<th>".sprintf("%02d", $i)."</th>";
     }

@@ -15,11 +15,10 @@ class Hourlyreport extends Core_controller {
     public function index() {
         $datetime = new DateTime();
         $currentDate = $datetime->format('Y-m-d');
-        $currentDate="2018-03-07";
 
         $userlogin = $this->db->select("login FROM `users` WHERE `id`='".$_SESSION['id']."'", 0);
         if(isset($_POST['update']) && $userlogin != "admin"){
-
+            $currentDate = $_POST['currentDate'];
             $lastUpdateTime = $this->db->select("`value` FROM `settings` WHERE `parameter`='lasttimeupdate".$userlogin."'", 0);
 
             if($lastUpdateTime==""){
@@ -28,9 +27,9 @@ class Hourlyreport extends Core_controller {
                         "value"=>time()));
             }
 
-            if(time() - $lastUpdateTime > 60){
-                $this->update(1,$userlogin);
-                $this->update(2,$userlogin);
+            if(time() - $lastUpdateTime > 5){
+                $this->update(1, $userlogin, $currentDate);
+                $this->update(2, $userlogin, $currentDate);
                 $this->db->update("settings",array("value"=>time()),"parameter='lasttimeupdate".$userlogin."'");
             }
         }
@@ -47,14 +46,14 @@ class Hourlyreport extends Core_controller {
                 'view' => 'timesheet/show',
                 'var' => array(
                     'data' => $tabledata,
-                    'currentdate' => $currentDate
+                    'currentDate' => $currentDate
                 )
             )
         );
     }
     
-    public function update($destionation, $cid){
-        dataUpdate($destionation, $cid );
+    public function update($destionation, $cid, $currentDate){
+        dataUpdate($destionation, $cid , $currentDate);
     }
 
     public function logout() {
