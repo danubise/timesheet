@@ -21,8 +21,10 @@ class Hourlyreport extends Core_controller {
         $data = $this->db->select("number, hour , sum(round_session_time) as sec
             FROM `statistic` WHERE `session_start` LIKE('".$currentDate."%') AND `cid`='".$userlogin."' group by number, hour");
         $tabledata= array();
-        foreach ($data as $key=>$value){
-            $tabledata[$value['number']][$value['hour']] = round($value['sec']/60);
+        if(!empty($data)){
+            foreach ($data as $key=>$value){
+                $tabledata[$value['number']][$value['hour']] = round($value['sec']/60);
+            }
         }
         $this->view(
             array(

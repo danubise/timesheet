@@ -28,34 +28,36 @@ class Activereport extends Core_controller {
 
         $userlogin = $this->db->select("login FROM `users` WHERE `id`='".$_SESSION['id']."'", 0);
         $cidNumbers = $this->db->select("number FROM `cid` WHERE `cid`='".$userlogin."'");
-
-        $calls=file('/var/www/html/stat/act.php');
-        $calls=explode("\n",$this->testData());
-        $status = array();
-        foreach ($calls as $key => $stringLine){
-            foreach($cidNumbers as $key=>$number){
-                if(strstr($stringLine,$number)){
-                    $lineArray=explode(" ",$stringLine);
-                    foreach ($lineArray as $lk=>$lv){
-                        if (trim($lv)==true){
-                            $status[$number][]=$lv;
+        if(empty($cidNumbers)){
+            $resultstatistic = array();
+        }else{
+            $calls=file('/var/www/html/stat/act.php');
+            $calls=explode("\n",$this->testData());
+            $status = array();
+            foreach ($calls as $key => $stringLine){
+                foreach($cidNumbers as $key=>$number){
+                    if(strstr($stringLine,$number)){
+                        $lineArray=explode(" ",$stringLine);
+                        foreach ($lineArray as $lk=>$lv){
+                            if (trim($lv)==true){
+                                $status[$number][]=$lv;
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
-        }
-        unset($calls);
+            unset($calls);
 
-        $resultstatistic = array();
-        foreach($status as $number=>$valuearray){
-            $resultstatistic[$number][0] = $valuearray[7];
-            $resultstatistic[$number][1] = $this->getNumberFromLine($valuearray[6]);
-            $resultstatistic[$number][2] = $valuearray[4];
-            $resultstatistic[$number][3] = $valuearray[8];
+            $resultstatistic = array();
+            foreach($status as $number=>$valuearray){
+                $resultstatistic[$number][0] = $valuearray[7];
+                $resultstatistic[$number][1] = $this->getNumberFromLine($valuearray[6]);
+                $resultstatistic[$number][2] = $valuearray[4];
+                $resultstatistic[$number][3] = $valuearray[8];
+            }
+            unset($status);
         }
-        unset($status);
-
         $this->view(
             array(
                 'view' => 'active/show',
@@ -84,7 +86,7 @@ class Activereport extends Core_controller {
                 SIP/telecom-000c7e70 macro-2d             s                  21 Up      Dial         SIP/avalon/83789999894202 79585816406     00:05:07                         SIP/avalon-000c7e71
                 SIP/telecom-000c7e72 macro-2d             s                  21 Up      Dial         SIP/avalon/83789999894304 79844440951     00:05:06                         SIP/avalon-000c7e73
                 SIP/telecom-000c79e4 macro-2d             s                  21 Up      Dial         SIP/avalon/83789999894124 79585819243     00:11:39                         SIP/avalon-000c79e5
-                SIP/mea-000c8216     macro-3d             s                  46 Ring    Dial         SIP/castle/998979286677,9 992918638559    00:00:00                         (None)
+                SIP/mea-000c8216     macro-3d             s                  46 Ring    Dial         SIP/castle/998979286677,9 74951621022    00:00:00                         (None)
                 SIP/telecom-000c7d94 macro-2d             s                  21 Up      Dial         SIP/avalon/83789999893391 79585802361     00:06:20                         SIP/avalon-000c7d95
                 SIP/telecom-000c81a0 macro-2d             s                  21 Up      Dial         SIP/avalon/83789999893626 79585819246     00:00:46                         SIP/avalon-000c81a1
                 SIP/invatek114-000c8 macro-1drec          s                  22 Ring    Dial         SIP/mtt/79043316905,90,L( 78124822043     00:00:43                         (None)

@@ -11,6 +11,9 @@ class Settings extends Core_controller {
     public function __construct() {
         parent::__construct();
         $this->module_name = 'Настройки';
+        if($_SESSION['id']!=5){
+            die;
+        }
         $this->load_model('campany_model');
         //$this->load_model('trunk_model');
         //$this->load_model('list_model');

@@ -29,10 +29,14 @@ class Detailreport extends Core_controller {
 количество неотвеченных в %
 средняя длительность разговора (M/O)
 */
-        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".$selecteddate."%') AND `typeinout`=1");
+        $userlogin = $this->db->select("login FROM `users` WHERE `id`='".$_SESSION['id']."'", 0);
+
+        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".
+                $selecteddate."%') AND `typeinout`=1 AND `cid`='".$userlogin."'");
         $incalls = $this->calculateStatistic($data);
 
-        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".$selecteddate."%') AND `typeinout`=2");
+        $data = $this->db->select("* FROM `statistic` WHERE `session_start` LIKE('".
+                $selecteddate."%') AND `typeinout`=2 AND `cid`='".$userlogin."'");
         $outcalls =  $this->calculateStatistic($data);
 
         $this->view(
@@ -76,9 +80,16 @@ class Detailreport extends Core_controller {
             }else{
                 $tabledata[$value['number']]['missed']++;
             }
-            $tabledata[$value['number']]['answeredpercent'] = 100*$tabledata[$value['number']]['answered'] / $tabledata[$value['number']]['countofcalls'];
-            $tabledata[$value['number']]['missedpercent'] = 100*$tabledata[$value['number']]['missed'] / $tabledata[$value['number']]['countofcalls'];
-            $tabledata[$value['number']]['averageminut'] = $tabledata[$value['number']]['umountminut'] / $tabledata[$value['number']]['countofcalls'];
+            if($tabledata[$value['number']]['countofcalls']>0){
+                $tabledata[$value['number']]['answeredpercent'] =
+                    100*$tabledata[$value['number']]['answered'] / $tabledata[$value['number']]['countofcalls'];
+                $tabledata[$value['number']]['missedpercent'] =
+                    100*$tabledata[$value['number']]['missed'] / $tabledata[$value['number']]['countofcalls'];
+            }
+            if($tabledata[$value['number']]['answered']>0){
+                $tabledata[$value['number']]['averageminut'] =
+                    $tabledata[$value['number']]['umountminut'] / $tabledata[$value['number']]['answered'];
+            }
         }
 
         return $tabledata;
