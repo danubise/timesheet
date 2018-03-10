@@ -12,8 +12,8 @@ class Hourlyreport extends Core_controller {
         $this->module_name = 'Time sheet';
     }
 
-    public function index() {
-        dataUpdate("2433");
+    public function index($destionation, $cid) {
+        dataUpdate($cid,$destionation );
 
 
 //        $this->view(

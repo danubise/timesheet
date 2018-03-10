@@ -132,8 +132,8 @@ function utf8_to_cp1251($s)
     }
 }
 
-function dataUpdate($cid){
-global $_config;
+function dataUpdate($cid, $destination){
+    global $_config;
 
     $datetime = new DateTime();
     $date1 = $datetime->format('d.m.Y');
@@ -154,7 +154,7 @@ global $_config;
     $url = 'http://'.$_config['billing']['host'].'/bgbilling/executer?user='.$_config['billing']['user'].
         '&pswd='.$_config['billing']['password'].
         '&module=voiceip'.
-        '&direct=2'.
+        '&direct='.$destination.
         '&mid=4'.
         '&pageSize=999'.
         '&date2='.$date2.
@@ -166,24 +166,19 @@ global $_config;
         '&contentType=xml'.
         '&cid='.$cid.
         '&mask=';
-
-    $data = simplexml_load_string(file_get_contents($url));
     echo $url."<br>";
+    $data = simplexml_load_string(file_get_contents($url));
     if ((string)$data['status'] == 'ok') {
-        var_dump($data);
          $countOfRows= $data->table->data->attributes();
          for ($i =0 ; $i< $countOfRows; $i++) {
             $from_to_temp= $data->table->data->row[$i]['from_to']->__toString();
             $from_to = explode("/",$from_to_temp);
-            $number = trim($from_to[1]);
+            $number = trim($from_to[$destination-1]);
             $durationstring = $data->table->data->row[$i]['round_session_time']->__toString();
             $durationtime_temp = explode("[",$durationstring);
             $durationtime_temp = explode("]",$durationtime_temp[1]);
             $round_session_time = $durationtime_temp[0];
 
-            echo " time = ".$round_session_time;
-            echo " startat = ".$data->table->data->row[$i]['session_start']->__toString();
-            echo "<br>";
             $session_start=date("Y-m-d H:i:s", strtotime( $data->table->data->row[$i]['session_start']->__toString() ));
             $log_id = (int)$data->table->data->row[$i]['log_id'];
             $db->insert("statistic", array(
@@ -191,7 +186,7 @@ global $_config;
             "cid" => (int)$cid,
             "session_start"=>$session_start,
             "round_session_time" => (int)$round_session_time,
-            "typeinout" => 2,
+            "typeinout" => $destination,
             "log_id" => $log_id
             ));
             echo $db->query->last."<br>";
