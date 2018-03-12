@@ -27,7 +27,7 @@ class Hourlyreport extends Core_controller {
                         "value"=>time()));
             }
 
-            if(time() - $lastUpdateTime > 5){
+            if(time() - $lastUpdateTime > 60){
                 $this->update(1, $userlogin, $currentDate);
                 $this->update(2, $userlogin, $currentDate);
                 $this->db->update("settings",array("value"=>time()),"parameter='lasttimeupdate".$userlogin."'");

@@ -73,7 +73,7 @@ function displaydata($data){
     <table class="blueTable">
 
         <tr>
-            <th colspan="8">Входящие</th>
+            <th colspan="8">Исходящие</th>
         </tr>
         <tr>
         <th>номер\данные</th>
@@ -95,7 +95,7 @@ function displaydata($data){
      <br>
      <table class="blueTable">
         <tr>
-            <th colspan="8">Исходящие</th>
+            <th colspan="8">Входящие</th>
         </tr>
         <tr>
             <th>номер\данные</th>
