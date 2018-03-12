@@ -32,7 +32,7 @@ class Activereport extends Core_controller {
             $resultstatistic = array();
         }else{
             $calls=file('/var/www/html/stat/act.php');
-            $calls=explode("\n",$this->testData());
+ //           $calls=explode("\n",$this->testData());
             $status = array();
             foreach ($calls as $key => $stringLine){
                 foreach($cidNumbers as $key=>$number){
