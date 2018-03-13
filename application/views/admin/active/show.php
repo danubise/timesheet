@@ -15,7 +15,7 @@ table.blueTable tbody td {
   font-size: 13px;
 }
 table.blueTable tr:nth-child(even) {
-  background: #D0E4F5;
+  background: #EEEEEE;
 }
 table.blueTable thead {
   background: #1C6EA4;
@@ -50,16 +50,17 @@ table.blueTable tfoot .links a{
 </style>
 <table class="blueTable">
     <tr>
-        <th>A-num</th>
-        <th>B-num</th>
+        <th>Номер</th>
         <th>Статус</th>
         <th>Длительность</th>
     </tr>
     <?php
         if(!empty($resultstatistic)){
             foreach ($resultstatistic as $number=>$valueArray){
-                if($valueArray[2]=="Up"){
+                if($valueArray[1]=="Up"){
                     echo "<tr style=\"background-color: #4EEE07;\">";
+                }elseif($valueArray[1]=="Ring"){
+                    echo "<tr style=\"background-color: #BDF5A9;\">";
                 }else{
                     echo "<tr>";
                 }
