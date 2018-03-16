@@ -47,7 +47,7 @@ table.blueTable tfoot .links a{
   border-radius: 5px;
 }
 </style>
-<form method="post"  enctype="multipart/form-data" action="<?=baseurl('hourlyreport/index/')?>">
+<form method="post"  enctype="multipart/form-data" action="<?=baseurl('hourlyreport/index')?>">
 
 <div class="form-group">
     <input name="currentDate" type="date" data-date-inline-picker="true"  value="<?=$currentDate?>"/>

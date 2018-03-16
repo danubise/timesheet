@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="<?=baseurl('pub/css/bootswatch.min.css')?>">
 	<link rel="stylesheet" href="<?=baseurl('pub/css/datepicker3.css')?>">
     <?php
-    if(is_array($param['css'])) {
+    if(isset($param['css']) &&is_array($param['css'])) {
         foreach ($param['css'] as $value) {
             echo "<link rel=\"stylesheet\" href=\"".$value."\" >\n";
         }
@@ -53,7 +53,7 @@
 </div>
 <center></center>
 <?php
-if(is_array($param['js'])) {
+if(isset($param['js']) && is_array($param['js'])) {
     foreach ($param['js'] as $value) {
         echo "<script src=\"".$value."\" ></script>\n";
     }

@@ -57,7 +57,10 @@ class db extends mysqli {
             $user = $config['user'];
             $pass = $config['password'];
             $db = $config['database'];
-            $debug = (!$config['debug']?false:true);
+            $debug = false;
+            if(isset($config['debug'])){
+                $debug = (!$config['debug']?false:true);
+            }
         }
         $this->DEBUG = ($debug?true:false);
         if(!empty($host) and !empty($user) and !empty($pass)) {

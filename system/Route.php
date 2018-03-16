@@ -69,6 +69,22 @@ if(count($construct_route)>2 or ($alias_route and count($construct_route)>1)) {
 if(check_controller($route['controller'])) {
     $Controller = new $route['controller']();
     if(method_exists($Controller,$route['view']) and(!in_array($route['view'],$Controller->access_metod))) {
+        if(!isset($route['args'][0])){
+            $route['args'][0]= false;
+        }
+        if(!isset($route['args'][1])){
+        $route['args'][1]= false;
+        }
+        if(!isset($route['args'][2])){
+        $route['args'][2]= false;
+        }
+         if(!isset($route['args'][3])){
+        $route['args'][3]= false;
+        }
+        if(!isset($route['args'][4])){
+        $route['args'][4]= false;
+        }
+
         $Controller->{$route['view']}(
             (($route['args'][0])? $route['args'][0] : null),
             (($route['args'][1])? $route['args'][1] : null),

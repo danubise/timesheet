@@ -160,7 +160,7 @@ function dataUpdate( $destination, $cid, $date1 ){
         '&module=voiceip'.
         '&direct='.$destination.
         '&mid=4'.
-        '&pageSize=999'.
+        '&pageSize=9999999'.
         '&date2='.$date2.
         '&date1='.$date1.
         '&unit=1'.
@@ -171,7 +171,12 @@ function dataUpdate( $destination, $cid, $date1 ){
         '&cid='.$cid.
         '&mask=';
     //echo $url."<br>";
-    $data = simplexml_load_string(file_get_contents($url));
+    saveToLog($url);
+    register_shutdown_function('shutdown');
+
+    $dataFromBilling=file_get_contents($url);
+    saveToLog($dataFromBilling);
+    $data = simplexml_load_string($dataFromBilling);
     if ((string)$data['status'] == 'ok') {
          $countOfRows= $data->table->data->attributes();
          for ($i =0 ; $i< $countOfRows; $i++) {
@@ -197,5 +202,19 @@ function dataUpdate( $destination, $cid, $date1 ){
             ));
          //   echo $db->query->last."<br>";
          }
+    }
+}
+
+function saveToLog($data){
+    $datetime = new DateTime();
+    $date1 = $datetime->format("Y-m-d H:i:s");
+    file_put_contents("/var/log/asterisk/timesheet_debug.log", "\n".$date1." ".$data."\n", FILE_APPEND | LOCK_EX);
+}
+
+function shutdown(){
+    if (($error = error_get_last())) {
+       ob_clean();
+       echo "Ошибка обработки данных";
+       saveToLog("ERROR: ". var_export($error,true));
     }
 }
