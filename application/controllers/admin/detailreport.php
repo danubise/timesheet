@@ -20,8 +20,7 @@ class Detailreport extends Core_controller {
         }else{
             $datetime = new DateTime();
             $date1 = $datetime->format('Y-m-d');
-            $datetime = new DateTime('tomorrow');
-            $date2 = $datetime->format('Y-m-d');
+            $date2 = $date1;
         }
 /*
 количество набранных (N) ---
@@ -36,13 +35,13 @@ class Detailreport extends Core_controller {
 
         $data = $this->db->select("* FROM `statistic` WHERE
              `session_start` >= '".$date1."' AND
-             `session_start` < '".$date2."'
+             `session_start` <= '".$date2."'
              AND `typeinout`=1 AND `cid`='".$userlogin."'");
         $incalls = $this->calculateStatistic($data);
 
         $data = $this->db->select("* FROM `statistic` WHERE
             `session_start` >= '".$date1."' AND
-            `session_start` < '".$date2."' AND
+            `session_start` <= '".$date2."' AND
             `typeinout`=2 AND `cid`='".$userlogin."'");
         $outcalls =  $this->calculateStatistic($data);
 
