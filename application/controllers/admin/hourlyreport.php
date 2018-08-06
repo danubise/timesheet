@@ -17,8 +17,11 @@ class Hourlyreport extends Core_controller {
         $currentDate = $datetime->format('Y-m-d');
 
         $userlogin = $this->db->select("login FROM `users` WHERE `id`='".$_SESSION['id']."'", 0);
-        if(isset($_POST['update']) && $userlogin != "admin"){
+        if(isset($_POST['currentDate'])){
             $currentDate = $_POST['currentDate'];
+        }
+        if(isset($_POST['update']) && $userlogin != "admin"){
+
             $lastUpdateTime = $this->db->select("`value` FROM `settings` WHERE `parameter`='lasttimeupdate".$userlogin."'", 0);
 
             if($lastUpdateTime==""){
