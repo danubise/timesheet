@@ -137,7 +137,7 @@ function dataUpdate( $destination, $cid, $date1 ){
 
     $datetime = new DateTime($date1);
     $date1 = $datetime->format('d.m.Y');
-    $datetime->modify('+1 day');
+//    $datetime->modify('+1 day');
 //    $datetime = new DateTime('tomorrow');
     $date2 =  $datetime->format('d.m.Y');
 
